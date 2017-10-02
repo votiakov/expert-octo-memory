@@ -14,3 +14,11 @@
 ].each do |item|
 	Item.where(name: item[:name]).first_or_create(price: item[:price])
 end
+
+
+Promotion.where(code: '20%OFF').first_or_create(value: 20.0, kind: :percent)
+Promotion.where(code: '5%OFF').first_or_create(value: 5.0, kind: :percent, can_combine: true)
+Promotion.where(code: '20POUNDSOFF').first_or_create(value: 20.0, kind: :amount, can_combine: true)
+
+Promotion.create(item_ids: [Item.find_by_name('Motion Sensor').id], value: 65.0, kind: :product, can_combine: true, quantity: 3)
+Promotion.create(item_ids: [Item.find_by_name('Smoke Sensor').id], value: 35.0, kind: :product, can_combine: true, quantity: 2)

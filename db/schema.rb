@@ -10,18 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171002190746) do
+ActiveRecord::Schema.define(version: 20171002201305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "basket_items", force: :cascade do |t|
-    t.bigint "item_id"
+    t.string "resource_type"
+    t.bigint "resource_id"
     t.bigint "basket_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["basket_id"], name: "index_basket_items_on_basket_id"
-    t.index ["item_id"], name: "index_basket_items_on_item_id"
+    t.index ["resource_type", "resource_id"], name: "index_basket_items_on_resource_type_and_resource_id"
   end
 
   create_table "baskets", force: :cascade do |t|
@@ -33,6 +34,26 @@ ActiveRecord::Schema.define(version: 20171002190746) do
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.decimal "price", precision: 8, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "promotion_items", force: :cascade do |t|
+    t.bigint "promotion_id"
+    t.bigint "item_id"
+    t.integer "quantity", default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_promotion_items_on_item_id"
+    t.index ["promotion_id"], name: "index_promotion_items_on_promotion_id"
+  end
+
+  create_table "promotions", force: :cascade do |t|
+    t.string "kind", null: false
+    t.float "value"
+    t.string "code"
+    t.boolean "can_combine", default: false
+    t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

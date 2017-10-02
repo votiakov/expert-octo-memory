@@ -10,4 +10,11 @@
 #
 
 class Item < ApplicationRecord
+	has_many :basket_items, as: :resource
+	has_many :baskets, through: :basket_items
+	# has_many :basket_items
+	# has_many :baskets, through: :basket_items
+
+	# scope :products,   -> { where(type: 'Product') }
+	# scope :promotions, -> { where(type: 'Promotion') }
 end
