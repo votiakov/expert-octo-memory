@@ -1,0 +1,1 @@
+<%= link_to "#{Basket.first.number_of_items || 0} items in basket", basket_path(id: Basket.first.id), class: 'nav-link' %>

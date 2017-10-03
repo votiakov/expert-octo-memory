@@ -1,0 +1,51 @@
+<%= toast %>
+
+<h2>Your Basket</h2>
+
+<%= form_for(@basket_item, remote: true) do |f| %>
+  <%= f.hidden_field :basket_id, value: Basket.first.id %>
+  <%= f.hidden_field :resource_type, value: 'Promotion' %>
+  <div class='row mb-2'>
+    <div class="col col-4">
+      <%= f.text_field :promo_code, placeholder: 'Enter your promo code', class: 'form-control', type: "text" %>
+    </div>
+    <div class='col col-2'>
+      <%= f.submit "Add promo code", class: 'btn btn-primary btn-sm' %>
+    </div>
+  </div>
+<% end %>
+
+<table class='table table-bordered table-hover table-striped table-sm'>
+  <tr>
+    <th>Name</th>
+    <th>Quantity</th>
+    <th>Price</th>
+    <th></th>
+  </tr>
+
+<% @basket.basket_items.items.each do |basket_item| %>
+  <tr>
+    <td><%= basket_item.name %></td>
+    <td><%= basket_item.quantity %></td>
+    <td><%= number_to_currency(basket_item.price, :unit => "£") %></td>
+    <td><%= button_to "X", basket_item, :method => :delete, class: 'btn btn-outline-danger' %></td>
+  </tr>
+<% end %>
+  <tr>
+    <td></td>
+    <td></td>
+    <td class='font-weight-bold'><%= number_to_currency(@basket.items_total, :unit => "£") %></td>
+    <td></td>
+  </tr>
+  <tr></tr>
+<% @basket.basket_items.promotions.each do |basket_item| %>
+  <tr class='table-info'>
+    <td><%= basket_item.resource.code %></td>
+    <td><%= basket_item.quantity %></td>
+    <td>-<%= basket_item.resource.kind == 'percent' ? "#{basket_item.resource.value.to_i}%" : number_to_currency(basket_item.resource.value, :unit => "£") %></td>
+    <td><%= button_to "X", basket_item, :method => :delete, class: 'btn btn-outline-danger' %></td>
+  </tr>
+<% end %>
+</table>
+
+<br>

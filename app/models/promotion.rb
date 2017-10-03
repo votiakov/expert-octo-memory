@@ -21,4 +21,8 @@ class Promotion < ApplicationRecord
 	scope :percents, -> { where(kind: :percent) }
 	scope :amounts,  -> { where(kind: :amount) }
 	scope :products, -> { where(kind: :product) }
+
+	scope :codes, -> { where.not(kind: :product) }
+
+	scope :not_combinable, -> { codes.where(can_combine: false) }
 end

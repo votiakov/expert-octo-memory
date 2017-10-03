@@ -23,6 +23,10 @@ class Basket < ApplicationRecord
 		items.map(&:price).reduce(:+) # todo - process product promotions
 	end
 
+	def number_of_items
+		basket_items.items.map(&:quantity).reduce(:+)
+	end
+
 	def total_with_promotions
 		amount_discount = promotions.amounts.map(&:value).reduce(:+)
 		subtotal = items_total - amount_discount
