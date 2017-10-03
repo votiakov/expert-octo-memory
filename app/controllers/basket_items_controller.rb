@@ -7,6 +7,16 @@ class BasketItemsController < ApplicationController
 		end
 	end
 
+	def update
+		@basket_item = BasketItem.find(params[:id])
+		if @basket_item.update_attribute(:quantity, params[:basket_item][:quantity])
+			flash[:notice] = "Saved"
+		else
+			flash[:alert] = "Error: could not save"
+		end
+		redirect_to basket_path(id: Basket.first.id)
+	end
+
 	def add_item
 		# @basket_item = BasketItem.new(basket_item_params)
 		@basket_item = BasketItem.where(
@@ -24,16 +34,14 @@ class BasketItemsController < ApplicationController
 		if @basket_item.save
 			# redirect_to basket_path(id: Basket.first.id)
 			flash[:notice] = "Item successfully added"
-			redirect_to items_path
 		else
 			flash[:alert] = "Error: could not add item"
-			redirect_to items_path
 		end
+		redirect_to items_path
 
 	end
 
 	def add_promotion
-		# byebug
 		@promotion = Promotion.find_by_code(params[:basket_item][:promo_code])
 		if @promotion
 			@basket_item = BasketItem.new(basket_item_params.merge(resource_id: @promotion.id))
@@ -58,11 +66,10 @@ class BasketItemsController < ApplicationController
 		@basket_item = BasketItem.find(params[:id])
 		if @basket_item.destroy
 			flash[:notice] = "Item removed"
-			redirect_to basket_path(id: Basket.first.id)
 		else
 			flash[:alert] = "Error: could not remove an item"
-			redirect_to basket_path(id: Basket.first.id)
 		end
+		redirect_to basket_path(id: Basket.first.id)
 	end
 
   private

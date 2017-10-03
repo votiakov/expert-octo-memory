@@ -18,4 +18,12 @@
 class PromotionItem < ApplicationRecord
 	belongs_to :item
 	belongs_to :promotion
+
+	def quantity
+		promotion.try(:quantity)
+	end
+
+	def value
+		promotion.try(:value)
+	end
 end

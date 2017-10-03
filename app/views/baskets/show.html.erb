@@ -27,7 +27,20 @@
   <% @basket.basket_items.items.each do |basket_item| %>
     <tr>
       <td><%= basket_item.name %></td>
-      <td><%= basket_item.quantity %></td>
+      <td>
+        <%= form_for basket_item do |f| %>
+          <div class='row'>
+            <div class="col col-6">
+              <%= f.text_field :quantity, min: 1, class: 'form-control', type: "number" %>
+            </div>
+            <div class='col col-6'>
+              <%= f.submit "Save", class: 'btn btn-outline-primary btn-sm' %>
+            </div>
+          </div>
+
+        <% end %>
+      </td>
+
       <td><%= number_to_currency(basket_item.price, unit: "£") %></td>
       <td><%= button_to "X", basket_item, method: :delete, class: 'btn btn-outline-danger' %></td>
     </tr>

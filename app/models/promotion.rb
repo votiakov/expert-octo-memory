@@ -15,8 +15,10 @@
 class Promotion < ApplicationRecord
 	KINDS = [:percent, :amount, :product]
 
-	has_many :promotion_items
-	has_many :items, through: :promotion_items
+	# has_many :promotion_items
+	# has_many :items, through: :promotion_items
+	has_one :promotion_item
+	has_one :item, through: :promotion_item
 
 	scope :percents, -> { where(kind: :percent) }
 	scope :amounts,  -> { where(kind: :amount) }
