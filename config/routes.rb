@@ -4,5 +4,5 @@ Rails.application.routes.draw do
 	resources :baskets
 	resources :basket_items
 
-	root "home#index"
+	root "items#index"
 end
