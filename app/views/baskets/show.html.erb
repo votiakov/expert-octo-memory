@@ -49,7 +49,7 @@
   <% end %>
   </table>
   <div>
-    <%= button_to "Check out", @basket, method: :checkout, class: 'btn btn-success' %>
+    <%= button_to "Check out", {:controller => :baskets, :action => :checkout}, class: 'btn btn-success' %>
   </div>
   <br>
 </div>
