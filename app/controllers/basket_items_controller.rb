@@ -14,7 +14,7 @@ class BasketItemsController < ApplicationController
 		else
 			flash[:alert] = "Error: could not save"
 		end
-		redirect_to basket_path(id: Basket.first.id)
+		redirect_to basket_path(id: current_basket.id)
 	end
 
 	def add_item
@@ -32,7 +32,7 @@ class BasketItemsController < ApplicationController
 		end
 
 		if @basket_item.save
-			# redirect_to basket_path(id: Basket.first.id)
+			# redirect_to basket_path(id: current_basket.id)
 			set_current_basket @basket_item.basket_id
 			flash[:notice] = "Item successfully added"
 		else
@@ -48,18 +48,18 @@ class BasketItemsController < ApplicationController
 			@basket_item = BasketItem.new(basket_item_with_nested_params.merge(resource_id: @promotion.id))
 
 			if @basket_item.save
-				# redirect_to basket_path(id: Basket.first.id)
+				# redirect_to basket_path(id: current_basket.id)
 				flash[:notice] = "Promo code successfully added"
-				redirect_to basket_path(id: Basket.first.id)
+				redirect_to basket_path(id: current_basket.id)
 			else
 				flash[:alert] = "Error: could not add a promo code. #{@basket_item.errors.values.join('. ')}"
-				redirect_to basket_path(id: Basket.first.id)
+				redirect_to basket_path(id: current_basket.id)
 			end
 		else
 			# @basket_item = BasketItem.new(basket_item_params)
 			# @basket_item.errors.add(:promo_code, :blank, message: "does not exist")
 			flash[:alert] = "Promotion does not exist"
-			redirect_to basket_path(id: Basket.first.id)
+			redirect_to basket_path(id: current_basket.id)
 		end
 	end
 
@@ -70,7 +70,7 @@ class BasketItemsController < ApplicationController
 		else
 			flash[:alert] = "Error: could not remove an item"
 		end
-		redirect_to basket_path(id: Basket.first.id)
+		redirect_to basket_path(id: current_basket.id)
 	end
 
   private

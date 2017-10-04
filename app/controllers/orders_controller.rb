@@ -15,7 +15,7 @@ class OrdersController < ApplicationController
 	end
 
 	def new
-		@order = Order.new(basket_id: Basket.first.id)
+		@order = Order.new(basket_id: current_basket.id)
 	end
 
 	def show

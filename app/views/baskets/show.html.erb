@@ -4,7 +4,7 @@
   <h2>Your Basket</h2>
 
   <%= form_for(@basket.basket_items.new, remote: true) do |f| %>
-    <%= f.hidden_field :basket_id, value: Basket.first.id %>
+    <%= f.hidden_field :basket_id, value: @basket.id %>
     <%= f.hidden_field :resource_type, value: 'Promotion' %>
     <div class='row mb-2'>
       <div class="col col-4">

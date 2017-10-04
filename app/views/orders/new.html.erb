@@ -95,7 +95,7 @@
   <div class="form-actions">
     <%= form.submit 'Order', class: 'btn btn-success' %>
     <%= link_to 'Back to basket',
-                basket_path(id: Basket.first.id), class: 'btn btn-outline-primary' %>
+                basket_path(id: current_basket.id), class: 'btn btn-outline-primary' %>
   </div>
   <% end %>
 
