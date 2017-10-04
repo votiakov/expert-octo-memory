@@ -9,7 +9,8 @@
 #
 
 class Basket < ApplicationRecord
-	has_many :basket_items
+	has_many :basket_items, inverse_of: :basket
+	has_one :order
 
 
 	has_many :items,      through: :basket_items, class_name: 'Item', source: :resource, source_type: "Item"
@@ -19,8 +20,7 @@ class Basket < ApplicationRecord
 
 	def items_total
 		# items.map(&:price).reduce(:+) # todo - process product promotions
-		subtotal = basket_items.items.reduce(0) { |sum, item| sum + (item.price * item.quantity) }
-		subtotal - calculate_product_discounts
+		basket_items.items.reduce(0) { |sum, item| sum + (item.price * item.quantity) }
 	end
 
 	def calculate_product_discounts
@@ -51,8 +51,9 @@ class Basket < ApplicationRecord
 	end
 
 	def total_with_promotions
+		subtotal = items_total - calculate_product_discounts
 		amount_discount = promotions.amounts.map(&:value).reduce(:+) || 0
-		subtotal = items_total - amount_discount
+		subtotal = subtotal - amount_discount
 		promotions.percents.map(&:value).reduce(subtotal) { |sum, el| sum * (1 - el / 100) }
 		# [0.5, 0.2, 0.1].reduce(1000) { |sum, el| sum * (1 - el) }
 

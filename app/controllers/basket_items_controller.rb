@@ -25,14 +25,15 @@ class BasketItemsController < ApplicationController
 		).first
 
 		if @basket_item.present?
-			new_quantity = params[:basket_item][:quantity].to_i + @basket_item.quantity
+			new_quantity = params[:basket_item][:quantity].to_i + (@basket_item.quantity || 0)
 			@basket_item.quantity = new_quantity
 		else
-			@basket_item = BasketItem.new(basket_item_params)
+			@basket_item = BasketItem.new(basket_item_with_nested_params)
 		end
 
 		if @basket_item.save
 			# redirect_to basket_path(id: Basket.first.id)
+			set_current_basket @basket_item.basket_id
 			flash[:notice] = "Item successfully added"
 		else
 			flash[:alert] = "Error: could not add item"
@@ -44,7 +45,7 @@ class BasketItemsController < ApplicationController
 	def add_promotion
 		@promotion = Promotion.find_by_code(params[:basket_item][:promo_code])
 		if @promotion
-			@basket_item = BasketItem.new(basket_item_params.merge(resource_id: @promotion.id))
+			@basket_item = BasketItem.new(basket_item_with_nested_params.merge(resource_id: @promotion.id))
 
 			if @basket_item.save
 				# redirect_to basket_path(id: Basket.first.id)
@@ -73,6 +74,18 @@ class BasketItemsController < ApplicationController
 	end
 
   private
+
+	def set_current_basket id
+		session[:basket_id] = id unless current_basket.persisted?
+	end
+
+  	def basket_item_with_nested_params
+  		if current_basket.persisted?
+  			basket_item_params
+  		else
+  			basket_item_params.merge(basket_attributes: {})
+  		end
+  	end
 
 	def resource_type
 		params[:basket_item][:resource_type]

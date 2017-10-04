@@ -13,8 +13,8 @@
       <td><%= item.name %></td>
       <td>
         <div class="pull-right">
-          <%= form_for(Basket.first.basket_items.new, remote: true) do |f| %>
-            <%= f.hidden_field :basket_id, value: Basket.first.id %>
+          <%= form_for(@basket.basket_items.new, remote: true) do |f| %>
+            <%= f.hidden_field :basket_id, value: @basket.id %>
             <%= f.hidden_field :resource_id, value: item.id %>
             <%= f.hidden_field :resource_type, value: 'Item' %>
             <div class='row'>

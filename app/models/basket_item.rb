@@ -18,8 +18,11 @@
 
 class BasketItem < ApplicationRecord
 	attr_accessor :promo_code
-	belongs_to :basket
+	belongs_to :basket, inverse_of: :basket_items
+	accepts_nested_attributes_for :basket
 	belongs_to :resource, polymorphic: true
+
+	validates :quantity, presence: true, numericality: { greater_than: 0 }, unless: :is_promo?
 
 	validates :resource_id, uniqueness: {
 		scope: [:basket_id, :resource_type],

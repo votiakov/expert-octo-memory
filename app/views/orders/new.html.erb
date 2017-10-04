@@ -1,0 +1,102 @@
+<%= toast %>
+<div class='container'>
+  <h2> Order Summary</h2>
+
+  <table class='table table-bordered table-hover table-striped table-sm'>
+    <tr>
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>Unit Price</th>
+      <th>Cost</th>
+    </tr>
+
+  <% @order.basket.basket_items.items.each do |basket_item| %>
+    <tr>
+      <td><%= basket_item.name %></td>
+      <td>
+        <%= basket_item.quantity %>
+      </td>
+
+      <td><%= number_to_currency(basket_item.price, unit: "£") %></td>
+      <td><%= number_to_currency(basket_item.price * basket_item.quantity, unit: "£") %></td>
+    </tr>
+  <% end %>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Subtotal:</td>
+      <td><%= number_to_currency(@order.basket.items_total, unit: "£") %></td>
+    <tr>
+      <td></td>
+      <td></td>
+      <td class='font-weight-bold'>Total (with promotions applied):</td>
+      <td class='font-weight-bold'><%= number_to_currency(@order.basket.total_with_promotions, unit: "£") %></td>
+    </tr>
+  </table>
+
+<h2>Customer Details</h2>
+  <%= form_for @order, html: { class: 'form-horizontal' } do |form| %>
+
+  <%= form.hidden_field :basket_id, value: @order.basket_id %>
+
+
+  <%= form.fields_for :customer_attributes, @order.customer do |f| %>
+  <fieldset class="form-group">
+    <%= f.label :card_number,'E-mail', class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :email, class: "form-control #{'is-invalid' if @order.errors && @order.errors.messages['customer.email'.to_sym].present?}" %>
+      <span class='font-italic text-danger'> <%= error_message @order, "customer.email" %> </span>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%= f.label :card_number,'Address', class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :address, class: "form-control #{'is-invalid' if @order.errors && @order.errors.messages['customer.address'.to_sym].present?}" %>
+      <span class='font-italic text-danger'> <%= error_message @order, "customer.address" %> </span>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%= f.label :card_number,'Card Number', class: 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :card_number, class: "form-control #{'is-invalid' if @order.errors && @order.errors.messages['customer.card_number'.to_sym].present?}" %>
+      <span class='font-italic text-danger'> <%= error_message @order, "customer.card_number" %> </span>
+    </div>
+  </fieldset>
+
+  <div class='row'>
+    <fieldset class="col col-6 form-group">
+      <%= f.label :card_cvv,'CVV', class: 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :card_cvv, class: "form-control #{'is-invalid' if @order.errors && @order.errors.messages['customer.card_cvv'.to_sym].present?}" %>
+        <span class='font-italic text-danger'> <%= error_message @order, "customer.card_cvv" %> </span>
+      </div>
+    </fieldset>
+
+    <fieldset class="col col-3 form-group">
+      <%= f.label :card_expiry_month,'Expiry Month', class: 'control-label' %>
+      <div class="controls">
+        <%= f.select :card_expiry_month, options_for_select(['01','02','03','04','05','06','07','08','09','10','11','12']), {}, class: "form-control #{'is-invalid' if @order.errors && @order.errors.messages['customer.card_expiry_month'.to_sym].present?}" %>
+        <span class='font-italic text-danger'> <%= error_message @order, "customer.card_expiry_month" %> </span>
+      </div>
+    </fieldset>
+
+    <fieldset class="col col-3 form-group">
+      <%= f.label :card_expiry_year,'Expiry Year', class: 'control-label' %>
+      <div class="controls">
+        <%= f.select :card_expiry_year, options_for_select(cc_years), {}, class: "form-control #{'is-invalid' if @order.errors && @order.errors.messages['customer.card_expiry_year'.to_sym].present?}" %>
+        <span class='font-italic text-danger'> <%= error_message @order, "customer.card_expiry_year" %> </span>
+      </div>
+    </fieldset>
+  </div>
+
+    <% end %>
+  <div class="form-actions">
+    <%= form.submit 'Order', class: 'btn btn-success' %>
+    <%= link_to 'Back to basket',
+                basket_path(id: Basket.first.id), class: 'btn btn-outline-primary' %>
+  </div>
+  <% end %>
+
+</div>

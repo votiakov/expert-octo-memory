@@ -1,4 +1,4 @@
 
-<%= link_to basket_path(id: Basket.first.id), class: 'nav-link' do %>
-    Basket <%= content_tag :span, "#{Basket.first.number_of_items || 0}", class: 'badge badge-pill badge-info' %>
+<%= link_to baskets_path, class: 'nav-link' do %>
+    Basket <%= content_tag :span, "#{@basket.try(:number_of_items) || 0}", class: 'badge badge-pill badge-info' %>
 <% end %>

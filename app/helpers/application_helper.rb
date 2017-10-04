@@ -10,4 +10,12 @@ module ApplicationHelper
 		end
 		flash_messages.join("\n").html_safe
 	end
+
+	def current_basket
+		if session[:basket_id].present?
+			Basket.find(session[:basket_id])
+		else
+			Basket.new
+		end
+	end
 end

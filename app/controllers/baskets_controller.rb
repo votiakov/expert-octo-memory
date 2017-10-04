@@ -1,11 +1,14 @@
 class BasketsController < ApplicationController
-	def show
-		@basket = Basket.first
-		@basket_items = @basket.items
-		@basket_item = @basket.basket_items.new
+	def index
+		if current_basket.persisted?
+			# render 'show'
+			redirect_to basket_path(current_basket.id)
+		else
+			render 'empty'
+		end
 	end
 
-	def checkout
-		@basket = Basket.find(params[:id])
+	def show
+		@basket = current_basket
 	end
 end

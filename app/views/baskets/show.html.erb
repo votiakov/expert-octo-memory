@@ -3,7 +3,7 @@
 <div class='container'>
   <h2>Your Basket</h2>
 
-  <%= form_for(@basket_item, remote: true) do |f| %>
+  <%= form_for(@basket.basket_items.new, remote: true) do |f| %>
     <%= f.hidden_field :basket_id, value: Basket.first.id %>
     <%= f.hidden_field :resource_type, value: 'Promotion' %>
     <div class='row mb-2'>
@@ -61,8 +61,9 @@
     </tr>
   <% end %>
   </table>
+
   <div>
-    <%= button_to "Check out", {:controller => :baskets, :action => :checkout}, class: 'btn btn-success' %>
+    <%= link_to "Check out", new_order_path, class: 'btn btn-success' %>
   </div>
   <br>
 </div>
