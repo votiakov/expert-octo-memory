@@ -40,8 +40,19 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  gem 'rspec-rails', '~> 3.6'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
+end
+
+group :test do
+  gem 'database_cleaner'
+  gem 'rspec-expectations', require: false
+  # As soon as shoulda-matchers are in v3.0.2 remove ref to master
+  gem 'shoulda-matchers', require: false, git: 'https://github.com/thoughtbot/shoulda-matchers.git'
+  gem 'shoulda-callback-matchers'
+  gem 'faker'
+  gem 'factory_girl_rails'
 end
 
 group :development do

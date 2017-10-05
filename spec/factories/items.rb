@@ -9,7 +9,9 @@
 #  updated_at :datetime         not null
 #
 
-class Item < ApplicationRecord
-	has_many :basket_items, as: :resource
-	has_many :baskets, through: :basket_items
+FactoryGirl.define do
+	factory :item do
+		name { Faker::Commerce.product_name }
+		price { BigDecimal.new(Faker::Commerce.price.to_s) }
+	end
 end

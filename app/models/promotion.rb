@@ -27,4 +27,8 @@ class Promotion < ApplicationRecord
 	scope :codes, -> { where.not(kind: :product) }
 
 	scope :not_combinable, -> { codes.where(can_combine: false) }
+
+	def price
+		item.try(:price)
+	end
 end

@@ -9,17 +9,14 @@
 #
 
 class Basket < ApplicationRecord
-	has_many :basket_items, inverse_of: :basket
+	has_many :basket_items, inverse_of: :basket, dependent: :destroy
 	has_one :order
 
 
 	has_many :items,      through: :basket_items, class_name: 'Item', source: :resource, source_type: "Item"
 	has_many :promotions, through: :basket_items, class_name: 'Promotion', source: :resource, source_type: "Promotion"
 
-	# default_scope { preload([:basket_items, :items, :promotions]) }
-
 	def items_total
-		# items.map(&:price).reduce(:+) # todo - process product promotions
 		basket_items.items.reduce(0) { |sum, item| sum + (item.price * item.quantity) }
 	end
 
@@ -50,12 +47,22 @@ class Basket < ApplicationRecord
 		basket_items.items.map(&:quantity).reduce(:+)
 	end
 
-	def total_with_promotions
-		subtotal = items_total - calculate_product_discounts
-		amount_discount = promotions.amounts.map(&:value).reduce(:+) || 0
-		subtotal = subtotal - amount_discount
-		promotions.percents.map(&:value).reduce(subtotal) { |sum, el| sum * (1 - el / 100) }
-		# [0.5, 0.2, 0.1].reduce(1000) { |sum, el| sum * (1 - el) }
+	def calculate_amount_discounts
+		promotions.amounts.map(&:value).reduce(:+) || 0
+	end
 
+
+	def total_with_promotions
+		# subtotal = items_total - calculate_product_discounts
+		# amount_discount = promotions.amounts.map(&:value).reduce(:+) || 0
+		# subtotal = subtotal - amount_discount
+		# promotions.percents.map(&:value).reduce(subtotal) { |sum, el| sum * (1 - el / 100) }
+
+		subtotal = items_total - calculate_product_discounts - calculate_amount_discounts
+		if subtotal < 0
+			BigDecimal.new('0.1')
+		else
+			promotions.percents.map(&:value).reduce(subtotal) { |sum, el| sum * (1 - el / 100) }
+		end
 	end
 end

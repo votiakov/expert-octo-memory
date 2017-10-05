@@ -45,9 +45,9 @@ class BasketItem < ApplicationRecord
 	end
 
 	def combining_codes
-		if basket.reload.promotions.not_combinable.count > 0
+		if basket.promotions.not_combinable.count > 0
 			errors.add :base, 'You already used a code that cannot be used in conjunction with other codes'
-		elsif basket.reload.promotions.codes.count > 0 and !resource.can_combine
+		elsif basket.promotions.codes.count > 0 and !resource.can_combine
 			errors.add :base, 'This code cannot be used in conjunction with other codes'
 		end
 	end
