@@ -8,7 +8,7 @@
 #  updated_at  :datetime         not null
 #
 
-describe Basket, focus: true do
+describe Basket do
 	it "has a valid factory" do
 		expect(build(:basket)).to be_valid
 	end
@@ -27,7 +27,6 @@ describe Basket, focus: true do
 		it { expect(basket).to have_one(:order) }
 		it { expect(basket).to have_many(:items).through(:basket_items) }
 		it { expect(basket).to have_many(:promotions).through(:basket_items) }
-
 	end
 
 	describe "public instance methods" do

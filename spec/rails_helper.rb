@@ -64,7 +64,7 @@ RSpec.configure do |config|
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
 
-  config.filter_run :focus
+  # config.filter_run :focus
 
   # Database maintenace
   config.use_transactional_fixtures = false

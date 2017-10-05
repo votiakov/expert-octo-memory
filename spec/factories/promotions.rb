@@ -20,16 +20,15 @@ FactoryGirl.define do
 
 		kind { [:amount, :percent, :product].sample }
 
-		trait :can_combine do
-			can_combine true
-		end
-
-		trait :cannot_combine do
-			can_combine false
-		end
-
-
 		factory :percent_promotion do
+			trait :can_combine do
+				can_combine true
+			end
+
+			trait :cannot_combine do
+				can_combine false
+			end
+
 			kind :percent
 		end
 
@@ -40,6 +39,13 @@ FactoryGirl.define do
 		end
 
 		factory :amount_promotion do
+			trait :can_combine do
+				can_combine true
+			end
+
+			trait :cannot_combine do
+				can_combine false
+			end
 			kind :amount
 			value { Faker::Number.between(1, 1000) }
 		end
