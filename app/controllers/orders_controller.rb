@@ -16,7 +16,12 @@ class OrdersController < ApplicationController
 	end
 
 	def new
-		@order = Order.new(basket_id: current_basket.id)
+		unless current_basket.persisted? && current_basket.items.present?
+			flash[:alert] = "Nothing to check out"
+			redirect_to baskets_path
+		end
+
+		@order = Order.new(basket_id: current_basket.try(:id))
 	end
 
 	def show
