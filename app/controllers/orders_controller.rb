@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
 		@order = Order.new(order_params)
 		if @order.save
 			flash[:notice] = "Order placed successfully"
+			session[:basket_id] = nil
 			redirect_to items_path
 		else
 			flash[:alert] = "Form contains errors"

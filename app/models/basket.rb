@@ -16,7 +16,7 @@ class Basket < ApplicationRecord
 	has_many :items,      through: :basket_items, class_name: 'Item', source: :resource, source_type: "Item"
 	has_many :promotions, through: :basket_items, class_name: 'Promotion', source: :resource, source_type: "Promotion"
 
-	default_scope { preload([:basket_items, :items, :promotions]) }
+	# default_scope { preload([:basket_items, :items, :promotions]) }
 
 	def items_total
 		# items.map(&:price).reduce(:+) # todo - process product promotions

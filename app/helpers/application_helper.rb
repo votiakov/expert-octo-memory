@@ -13,7 +13,8 @@ module ApplicationHelper
 
 	def current_basket
 		if session[:basket_id].present?
-			Basket.find(session[:basket_id])
+			found = Basket.find_by_id(session[:basket_id])
+			found || Basket.new
 		else
 			Basket.new
 		end
