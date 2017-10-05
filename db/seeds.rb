@@ -20,5 +20,5 @@ Promotion.where(code: '20%OFF').first_or_create(value: 20.0, kind: :percent)
 Promotion.where(code: '5%OFF').first_or_create(value: 5.0, kind: :percent, can_combine: true)
 Promotion.where(code: '20POUNDSOFF').first_or_create(value: 20.0, kind: :amount, can_combine: true)
 
-Promotion.create(item_id: Item.find_by_name('Motion Sensor').id, value: 65.0, kind: :product, can_combine: true, quantity: 3)
-Promotion.create(item_id: Item.find_by_name('Smoke Sensor').id, value: 35.0, kind: :product, can_combine: true, quantity: 2)
+Promotion.create(item: Item.find_by_name('Motion Sensor'), value: 65.0, kind: :product, can_combine: true, quantity: 3) unless PromotionItem.find_by_item_id(Item.find_by_name('Motion Sensor').try(:id)).present?
+Promotion.create(item: Item.find_by_name('Smoke Sensor'), value: 35.0, kind: :product, can_combine: true, quantity: 2) unless PromotionItem.find_by_item_id(Item.find_by_name('Smoke Sensor').try(:id)).present?
