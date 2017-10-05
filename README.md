@@ -6,9 +6,9 @@ Model Diagram (by RailRoady):
 
 Instructions: 
 
-1. clone the repository
-2. switch to the dev branch
-3. bundle install
-4. bundle exec rails db:setup
-5. bundle exec rails s
-6. open localhost:3000 in a web browser
+1. clone the repository: ```git clone https://github.com/votiakov/expert-octo-memory.git```
+2. go to the project's directory: ```cd expert-octo-memory```
+3. run ```bundle install```
+4. run ```bundle exec rails db:setup```
+5. run ```bundle exec rails s```
+6. open ```http://localhost:3000/``` in a web browser
