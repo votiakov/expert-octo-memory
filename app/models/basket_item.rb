@@ -57,7 +57,6 @@ class BasketItem < ApplicationRecord
 	end
 
 	def name
-		# if resource_type == 'Item' then resource.name else '' end
 		resource.try(:name)
 	end
 

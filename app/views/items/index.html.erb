@@ -34,4 +34,15 @@
     </tr>
   <% end %>
   </table>
+
+
+  <h3>Product promotions</h3>
+
+  <table class='table table-bordered table-sm table-hover table-striped'>
+  <% @product_promotions.each do |product_promotion| %>
+    <tr>
+      <td><%= product_promotion.full_info %></td>
+    </tr>
+  <% end %>
+  </table>
 </div>

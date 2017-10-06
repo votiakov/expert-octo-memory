@@ -53,10 +53,6 @@ class Basket < ApplicationRecord
 
 
 	def total_with_promotions
-		# subtotal = items_total - calculate_product_discounts
-		# amount_discount = promotions.amounts.map(&:value).reduce(:+) || 0
-		# subtotal = subtotal - amount_discount
-		# promotions.percents.map(&:value).reduce(subtotal) { |sum, el| sum * (1 - el / 100) }
 
 		subtotal = items_total - calculate_product_discounts - calculate_amount_discounts
 		if subtotal < 0

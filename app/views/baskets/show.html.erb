@@ -20,7 +20,8 @@
     <tr>
       <th>Name</th>
       <th>Quantity</th>
-      <th>Price</th>
+      <th>Unit Price</th>
+      <th>Cost</th>
       <th></th>
     </tr>
 
@@ -42,10 +43,12 @@
       </td>
 
       <td><%= number_to_currency(basket_item.price, unit: "£") %></td>
+      <td><%= number_to_currency(basket_item.price * basket_item.quantity, unit: "£") %></td>
       <td><%= button_to "X", basket_item, method: :delete, class: 'btn btn-outline-danger' %></td>
     </tr>
   <% end %>
     <tr>
+      <td></td>
       <td></td>
       <td></td>
       <td class='font-weight-bold'><%= number_to_currency(@basket.items_total, unit: "£") %></td>
@@ -56,6 +59,7 @@
     <tr class='table-info'>
       <td><%= basket_item.resource.code %></td>
       <td><%= basket_item.quantity %></td>
+      <td></td>
       <td>-<%= basket_item.resource.kind == 'percent' ? "#{basket_item.resource.value.to_i}%" : number_to_currency(basket_item.resource.value, unit: "£") %></td>
       <td><%= button_to "X", basket_item, method: :delete, class: 'btn btn-outline-danger' %></td>
     </tr>

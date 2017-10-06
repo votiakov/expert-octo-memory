@@ -31,4 +31,8 @@ class Promotion < ApplicationRecord
 	def price
 		item.try(:price)
 	end
+
+	def full_info
+		'Buy ' + quantity.to_s + ' ' +  item.name + ' for £' + value.to_s
+	end
 end

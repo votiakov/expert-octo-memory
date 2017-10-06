@@ -18,7 +18,6 @@ class BasketItemsController < ApplicationController
 	end
 
 	def add_item
-		# @basket_item = BasketItem.new(basket_item_params)
 		@basket_item = BasketItem.where(
 			basket_id: params[:basket_item][:basket_id],
 			resource_id: params[:basket_item][:resource_id]
@@ -56,8 +55,6 @@ class BasketItemsController < ApplicationController
 				redirect_to basket_path(id: current_basket.id)
 			end
 		else
-			# @basket_item = BasketItem.new(basket_item_params)
-			# @basket_item.errors.add(:promo_code, :blank, message: "does not exist")
 			flash[:alert] = "Promotion does not exist"
 			redirect_to basket_path(id: current_basket.id)
 		end
