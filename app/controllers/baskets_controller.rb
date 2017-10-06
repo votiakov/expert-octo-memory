@@ -11,4 +11,14 @@ class BasketsController < ApplicationController
 	def show
 		@basket = current_basket
 	end
+
+	def destroy
+		@basket = current_basket
+		if @basket.destroy
+			flash[:notice] = "Basket cleared"
+			redirect_to baskets_path
+		else
+			flash[:alert] = "Error: could not clear the basket"
+		end
+	end
 end

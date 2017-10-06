@@ -64,6 +64,8 @@
 
   <div>
     <%= link_to "Check out", new_order_path, class: 'btn btn-success' %>
+    <%= link_to "Clear ", basket_path(@basket), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger' %>
+
   </div>
   <br>
 </div>
